@@ -53,7 +53,7 @@ import os
 
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
-with open("/mount/secure/credentials.json", "w") as f:
+with open("credentials.json", "w") as f:
     f.write(st.secrets["GOOGLE_CREDENTIALS_JSON"])
 
 def get_calendar_service():
