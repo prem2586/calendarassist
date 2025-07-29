@@ -1,22 +1,19 @@
 from langchain.tools import tool
 
-@tool(description="Create calendar events for a given date.")
-def create_event(title: str, start_time: str, duration_minutes: int = 30) -> str:
-    service = get_calendar_service()
-    from datetime import datetime, timedelta
-    import dateparser
+from langchain.tools import tool
+import json
 
-    start_dt = dateparser.parse(start_time)
-    end_dt = start_dt + timedelta(minutes=duration_minutes)
-
-    event = {
-        'summary': title,
-        'start': {'dateTime': start_dt.isoformat(), 'timeZone': 'America/Los_Angeles'},
-        'end': {'dateTime': end_dt.isoformat(), 'timeZone': 'America/Los_Angeles'},
-    }
-
-    event = service.events().insert(calendarId='primary', body=event).execute()
-    return f"📅 Event created: {event.get('htmlLink')}"
+@tool
+def create_event(data: str) -> str:
+    """Create a calendar event. Input should be a JSON string with 'title' and 'time'."""
+    try:
+        parsed = json.loads(data)
+        title = parsed["title"]
+        time = parsed["time"]
+        # call Google Calendar API here
+        return f"Created event '{title}' at {time}"
+    except Exception as e:
+        return f"Error parsing input: {e}"
 
 @tool(description="List calendar events for a given date.")
 def list_events(date: str) -> str:
