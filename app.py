@@ -1,8 +1,4 @@
-from langchain.agents import initialize_agent, AgentType
-from langchain.chat_models import ChatOpenAI
 
-llm = ChatOpenAI(temperature=0, openai_api_key="your-key")
-agent = initialize_agent([create_event, list_events], llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION)
 
 
 from langchain.tools import tool
@@ -48,6 +44,13 @@ def list_events(date: str) -> str:
         return "No events found."
     
     return "\n".join(f"{e['summary']} at {e['start'].get('dateTime', e['start'].get('date'))}" for e in events)
+
+
+from langchain.agents import initialize_agent, AgentType
+from langchain.chat_models import ChatOpenAI
+
+llm = ChatOpenAI(temperature=0, openai_api_key="your-key")
+agent = initialize_agent([create_event, list_events], llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION)
 
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
