@@ -44,7 +44,7 @@ from langchain.agents import initialize_agent, AgentType
 from langchain.chat_models import ChatOpenAI
 import streamlit as st
 
-llm = ChatOpenAI(temperature=0, openai_api_key="your-key")
+llm = ChatOpenAI(temperature=0, openai_api_key=st.secrets["OPENAI_API_KEY"])
 agent = initialize_agent([create_event, list_events], llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION)
 
 from google.oauth2.credentials import Credentials
