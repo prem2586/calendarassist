@@ -1,6 +1,6 @@
 from langchain.tools import tool
 
-@tool
+@tool(description="Create calendar events for a given date.")
 def create_event(title: str, start_time: str, duration_minutes: int = 30) -> str:
     service = get_calendar_service()
     from datetime import datetime, timedelta
@@ -18,7 +18,7 @@ def create_event(title: str, start_time: str, duration_minutes: int = 30) -> str
     event = service.events().insert(calendarId='primary', body=event).execute()
     return f"📅 Event created: {event.get('htmlLink')}"
 
-@tool
+@tool(description="List calendar events for a given date.")
 def list_events(date: str) -> str:
     service = get_calendar_service()
     import dateparser
